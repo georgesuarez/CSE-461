@@ -87,7 +87,7 @@ int main(int argc, char const *argv[])
         {
             strcpy(cmd, "/bin/");
             strcat(cmd, command);
-            execve(command, parameters, envp);
+            execve(cmd, parameters, envp);
         }
 
         if (strcmp(command, "exit") == 0)
