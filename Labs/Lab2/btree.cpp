@@ -43,6 +43,10 @@ class Node
 
     keyType getSucc(int index);
 
+    void promoteFromPrev(int index);
+
+    void promoteFromNext(int index);
+
     void merge(int index);
 
     void fill(int index);
@@ -398,6 +402,9 @@ void Node<keyType>::merge(int index)
     {
         nKeys--;
     }
+
+    delete (sibling);
+
     return;
 }
 
@@ -435,6 +442,93 @@ void Node<keyType>::fill(int index)
 }
 
 template <class keyType>
+void Node<keyType>::promoteFromPrev(int index)
+{
+    Node<keyType> *child = C[index];
+    Node<keyType> *sibling = C[index - 1];
+
+    // The last key from C[index - 1] goes up to the prarent
+    // and key[index - 1] from parent is inserted as the first
+    // key in C[index]. Thus, the loses sibling one key and child
+    // gains one key
+
+    // Moving all keys in C[index] one step ahead
+    for (int i = child->nKeys - 1; i >= 0; i--)
+    {
+        child->keys[i + 1] = child->keys[i];
+    }
+
+    // If C[index] is not a leaf, move all its child pointers one step ahead
+    if (!child->isLeaf)
+    {
+        for (int i = child->nKeys; i >= 0; i--)
+        {
+            child->C[i + 1] = child->C[i];
+        }
+    }
+
+    // Setting child's first key equal to keys[index -1] from the
+    // current node
+    child->keys[0] = keys[index - 1];
+
+    // Moving sibling's last child as C[index]'s first child
+    if (!child->isLeaf)
+    {
+        child->C[0] = sibling->C[sibling->nKeys];
+    }
+
+    // Moving the key from the sibling to the parent
+    // This reduces the number of keys in the sibling
+    keys[index - 1] = sibling->keys[sibling->nKeys - 1];
+
+    child->nKeys += 1;
+    sibling->nKeys -= 1;
+
+    return;
+}
+
+template <class keyType>
+void Node<keyType>::promoteFromNext(int index)
+{
+    Node<keyType> *child = C[index];
+    Node<keyType> *sibling = C[index - 1];
+
+    // keys[index] is inserted as the last key in C[index]
+    child->keys[child->nKeys] = keys[index];
+
+    // Sibling's first child is inserted as the last child
+    // into C[index]
+    if (!child->isLeaf)
+    {
+        child->C[child->nKeys + 1] = sibling->C[0];
+    }
+
+    // The first key from sibling is inserted into keys[index]
+    keys[index] = sibling->keys[0];
+
+    // Moving all keys in C[index] one step behind
+    for (int i = 1; i < sibling->nKeys; i++)
+    {
+        sibling->keys[i - 1] = sibling->keys[i];
+    }
+
+    if (!sibling->isLeaf)
+    {
+        for (int i = 1; i <= sibling->nKeys; i++)
+        {
+            sibling->keys[i - 1] = sibling->C[i];
+        }
+    }
+
+    // Increasing and decreasing the key count of C[index]
+    // and C[index + 1] respectively
+    child->nKeys += 1;
+    sibling->nKeys -= 1;
+
+    return;
+}
+
+template <class keyType>
 void Node<keyType>::remove(keyType k)
 {
     int index = findKey(k);
@@ -465,13 +559,14 @@ void Node<keyType>::remove(keyType k)
         // Else, we recurse on the (index)th child which now has at least t keys
         if (isLast && index > nKeys)
         {
-            C[index - 1]->remove(k) l
+            C[index - 1]->remove(k);
         }
         else
         {
-            // TODO: Implement recursion
+            C[index]->remove(k);
         }
     }
+    return;
 }
 
 // Driver program to test above functions
