@@ -211,7 +211,7 @@ void Node<keyType>::insertNonFull(keyType k)
     int i = nKeys - 1;
 
     // If this is a Leaf node
-    if (isLeaf == true)
+    if (isLeaf)
     {
         // The following loop does two things
         // a) Finds the location of new key to be inserted
@@ -303,6 +303,8 @@ void Node<keyType>::removeFromLeaf(int index)
 
     // Reduce the count of keys
     nKeys--;
+
+    return;
 }
 
 template <class keyType>
@@ -320,18 +322,16 @@ void Node<keyType>::removeFromNonLeaf(int index)
         keys[index] = pred;
         C[index]->remove(pred);
     }
-
     // If the child C[index] has less than t keys, examine C[index + 1].
     // If C[index + 1] has at least t keys, find the successor 'succ' of k in
     // the subtree rooted at C[index + 1]
     // Replace k by succ and remove succ in C[index + 1]
-    else if (C[index]->nKeys >= t)
+    else if (C[index + 1]->nKeys >= t)
     {
         keyType succ = getSucc(index);
         keys[index] = succ;
         C[index + 1]->remove(succ);
     }
-
     // If both C[index] and C[index + 1] has less than t keys
     // merge k and all of C[index + 1] into C[index]
     // Now C[index] contains 2t - 1 keys
@@ -387,7 +387,7 @@ void Node<keyType>::merge(int index)
     child->keys[t - 1] = keys[index];
 
     // Copying the keys from C[index + 1] to C[index]
-    for (int i = 0; i < nKeys; i++)
+    for (int i = 0; i < sibling->nKeys; i++)
     {
         child->keys[i + t] = sibling->keys[i];
     }
@@ -404,10 +404,20 @@ void Node<keyType>::merge(int index)
     // Moving all keys after index in the current node one
     // step before - to fill the gap created by moving
     // keys[index] to C[index]
-    for (int i = index + 1; i < nKeys; i += sibling->nKeys + 1)
+    for (int i = index + 1; i < nKeys; i++)
     {
-        nKeys--;
+        keys[i - 1] = keys[i];
     }
+
+    // Moving the child pointers after (index + 1) in the
+    // current node one step before
+    for (int i = index + 2; i <= nKeys; i++)
+    {
+        C[i - 1] = C[i];
+    }
+
+    child->nKeys += sibling->nKeys + 1;
+    nKeys--;
 
     delete (sibling);
 
@@ -421,14 +431,14 @@ void Node<keyType>::fill(int index)
 {
     // If the previous child node that has less than t - 1 keys,
     // promote a key from that child
-    if (index != 0 && C[index - 1]->nKeys == t)
+    if (index != 0 && C[index - 1]->nKeys >= t)
     {
         promoteFromPrev(index);
     }
 
     // If the next child (C[index -1]) has more than t - 1 keys
     // promote a key from that child
-    else if (index != nKeys && C[index + 1]->nKeys == t)
+    else if (index != nKeys && C[index + 1]->nKeys >= t)
     {
         promoteFromNext(index);
     }
@@ -497,7 +507,7 @@ template <class keyType>
 void Node<keyType>::promoteFromNext(int index)
 {
     Node<keyType> *child = C[index];
-    Node<keyType> *sibling = C[index - 1];
+    Node<keyType> *sibling = C[index + 1];
 
     // keys[index] is inserted as the last key in C[index]
     child->keys[child->nKeys] = keys[index];
@@ -522,7 +532,7 @@ void Node<keyType>::promoteFromNext(int index)
     {
         for (int i = 1; i <= sibling->nKeys; i++)
         {
-            sibling->keys[i - 1] = sibling->C[i];
+            sibling->C[i - 1] = sibling->C[i];
         }
     }
 
@@ -532,6 +542,18 @@ void Node<keyType>::promoteFromNext(int index)
     sibling->nKeys -= 1;
 
     return;
+}
+// Returns the index of the first key that is greater than or equal
+// to k
+template <class keyType>
+int Node<keyType>::findKey(keyType k)
+{
+    int index = 0;
+    while (index < nKeys && keys[index] < k)
+    {
+        index++;
+    }
+    return index;
 }
 
 template <class keyType>
@@ -544,7 +566,18 @@ void Node<keyType>::remove(keyType k)
     {
         if (isLeaf)
         {
-            cout << "The key " << k << " not found in the tree\n";
+            removeFromLeaf(index);
+        }
+        else
+        {
+            removeFromNonLeaf(index);
+        }
+    }
+    else
+    {
+        if (isLeaf)
+        {
+            cout << "The key " << k << " does not exist in the tree\n";
             return;
         }
 
@@ -557,7 +590,7 @@ void Node<keyType>::remove(keyType k)
         // we fill that child
         if (C[index]->nKeys < t)
         {
-            fill(C[index]);
+            fill(index);
         }
 
         // If the last child has been merged, it must have merged with the
@@ -575,10 +608,6 @@ void Node<keyType>::remove(keyType k)
     return;
 }
 
-template <class keyType>
-int Node<keyType>::findKey(keyType k)
-{
-}
 
 template <class keyType>
 void BTree<keyType>::remove(keyType k)
