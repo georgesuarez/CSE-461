@@ -1,6 +1,10 @@
 // C++ program for B-Tree insertion
 // For simplicity, assume order m = 2 * t
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+
 using namespace std;
 
 //forward declaration
@@ -50,6 +54,8 @@ class Node
     void merge(int index);
 
     void fill(int index);
+
+    int findKey(keyType k);
 
     void remove(keyType k);
 
@@ -569,27 +575,82 @@ void Node<keyType>::remove(keyType k)
     return;
 }
 
+template <class keyType>
+int Node<keyType>::findKey(keyType k)
+{
+}
+
+template <class keyType>
+void BTree<keyType>::remove(keyType k)
+{
+    if (!root)
+    {
+        cout << "Tree is empty\n";
+        return;
+    }
+
+    // Call the remove function for root node
+    root->remove(k);
+
+    // If the root node has 0 keys, make its first child as the new root
+    // if it has a child, otherwise set root as NULL
+    if (root->nKeys == 0)
+    {
+        Node<keyType> *tmp = root;
+        if (root->isLeaf)
+        {
+            root = NULL;
+        }
+        else
+        {
+            root = root->C[0];
+        }
+        delete tmp;
+    }
+    return;
+}
+
 // Driver program to test above functions
 int main()
 {
-    BTree<int> t(3); // A B-Tree with minium degree 3, order 6
-    t.insert(10);
-    t.insert(20);
-    t.insert(5);
-    t.insert(6);
-    t.insert(12);
-    t.insert(30);
-    t.insert(7);
-    t.insert(17);
+    BTree<string> t(3); // A B-Tree with minium degree 3, order 6
+    // t.insert(10);
+    // t.insert(20);
+    // t.insert(5);
+    // t.insert(6);
+    // t.insert(12);
+    // t.insert(30);
+    // t.insert(7);
+    // t.insert(17);
 
-    cout << "Traversal of the constucted tree is ";
+    fstream inFile("test_string.txt");
+
+    string input;
+
+    while (inFile >> input)
+    {
+        t.insert(input);
+    }
+
+    inFile.close();
+
+    input.clear();
+
+    inFile.open("wordsToDelete.txt");
+
+    while (inFile >> input)
+    {
+        t.remove(input);
+    }
+
+    //cout << "Traversal of the constucted tree is ";
     t.traverse();
 
-    int k = 6;
-    (t.search(k) != NULL) ? cout << "\nPresent" : cout << "\nNot Present";
+    // int k = 6;
+    // (t.search(k) != NULL) ? cout << "\nPresent" : cout << "\nNot Present";
 
-    k = 15;
-    (t.search(k) != NULL) ? cout << "\nPresent" : cout << "\nNot Present";
+    // k = 15;
+    // (t.search(k) != NULL) ? cout << "\nPresent" : cout << "\nNot Present";
 
     return 0;
 }
