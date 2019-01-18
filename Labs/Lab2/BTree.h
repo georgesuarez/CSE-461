@@ -1,9 +1,7 @@
-// C++ program for B-Tree insertion
-// For simplicity, assume order m = 2 * t
+#ifndef BTREE_H
+#define BTREE_H
+
 #include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
 
 using namespace std;
 
@@ -638,48 +636,4 @@ void BTree<keyType>::remove(keyType k)
     }
     return;
 }
-
-// Driver program to test above functions
-int main()
-{
-    BTree<string> t(3); // A B-Tree with minium degree 3, order 6
-    // t.insert(10);
-    // t.insert(20);
-    // t.insert(5);
-    // t.insert(6);
-    // t.insert(12);
-    // t.insert(30);
-    // t.insert(7);
-    // t.insert(17);
-
-    fstream inFile("test_string.txt");
-
-    string input;
-
-    while (inFile >> input)
-    {
-        t.insert(input);
-    }
-
-    inFile.close();
-
-    input.clear();
-
-    inFile.open("wordsToDelete.txt");
-
-    while (inFile >> input)
-    {
-        t.remove(input);
-    }
-
-    //cout << "Traversal of the constucted tree is ";
-    t.traverse();
-
-    // int k = 6;
-    // (t.search(k) != NULL) ? cout << "\nPresent" : cout << "\nNot Present";
-
-    // k = 15;
-    // (t.search(k) != NULL) ? cout << "\nPresent" : cout << "\nNot Present";
-
-    return 0;
-}
+#endif // BTREE_H
