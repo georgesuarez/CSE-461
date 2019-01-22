@@ -24,12 +24,12 @@ int main()
 
     inFile.close();
 
-    // inFile.open("wordsToDelete.txt");
+    inFile.open("wordsToDelete.txt");
 
-    // while (inFile >> input)
-    // {
-    //     t.remove(input);
-    // }
+    while (inFile >> input)
+    {
+        t.remove(input);
+    }
 
     //cout << "Traversal of the constucted tree is ";
     t.traverse();

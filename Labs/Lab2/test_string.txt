@@ -11,4 +11,4 @@ a range of child nodes is permitted, B-trees do not need re-balancing as frequen
 other self-balancing search trees, but may waste some space, since nodes are not entirely 
 full. The lower and upper bounds on the number of child nodes are typically fixed for a 
 particular implementation. For example, in a 2-3 B-tree (often simply referred to as a 
-(2-3 tree), each internal node may have only 2 or 3 child nodes.
+2-3 tree), each internal node may have only 2 or 3 child nodes.

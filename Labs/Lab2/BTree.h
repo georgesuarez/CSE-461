@@ -172,6 +172,11 @@ void BTree<keyType>::insert(keyType k)
     }
     else // If tree is not empty
     {
+        Node<keyType> *tmp = search(k);
+
+        if (tmp != NULL)
+            return;
+
         // If root is full, then tree grows in height
         if (root->nKeys == 2 * t - 1)
         {
