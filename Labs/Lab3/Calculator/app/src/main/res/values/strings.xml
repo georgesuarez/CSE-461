@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="input_number_one">Enter Number 1</string>
+    <string name="input_number_two">Enter Number 2</string>
+    <string name="plus_button_desc">Adds two numbers.</string>
+    <string name="subtract_button_desc">Subtracts two numbers.</string>
+    <string name="multiply_button_desc">Multiplies two numbers.</string>
+    <string name="divide_button_desc">Divides two numbers.</string>
+</resources>

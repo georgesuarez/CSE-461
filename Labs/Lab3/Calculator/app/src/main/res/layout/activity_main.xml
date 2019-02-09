@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12pt"
+        android:layout_marginRight="12pt"
+        android:layout_marginTop="4pt">
+
+        <EditText
+            android:id="@+id/t1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:layout_weight="1"
+            android:autofillHints="@string/input_number_one"
+            tools:ignore="LabelFor,UnusedAttribute" />
+
+        <EditText
+            android:id="@+id/t2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6pt"
+            android:inputType="numberDecimal"
+            android:layout_weight="1"
+            android:autofillHints="@string/input_number_two"
+            tools:ignore="LabelFor,UnusedAttribute" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12pt"
+        android:layout_marginTop="4pt"
+        android:layout_marginEnd="6pt">
+
+        <ImageButton
+            android:id="@+id/plus"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/plus_button_desc"
+            android:src="@drawable/add" />
+
+        <ImageButton
+            android:id="@+id/minus"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/subtract_button_desc"
+            android:src="@drawable/subtract" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4pt"
+        android:layout_marginStart="6pt"
+        android:layout_marginEnd="6pt" >
+
+        <ImageButton
+            android:id="@+id/multiply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/multiply"
+            android:contentDescription="@string/multiply_button_desc" />
+
+    <ImageButton
+        android:id="@+id/divide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_divide"
+        android:contentDescription="@string/divide_button_desc" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/displayResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6pt"
+        android:layout_marginRight="6pt"
+        android:layout_marginTop="4pt"
+        android:textSize="12pt"
+        android:gravity="center_horizontal">
+    </TextView>
+
+</LinearLayout>
