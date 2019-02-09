@@ -12,7 +12,6 @@ using namespace std;
 int main()
 {
     BTree<string> t(3); // A B-Tree with minium degree 3, order 6
-
     fstream inFile("test_string.txt");
 
     string input;
@@ -24,6 +23,10 @@ int main()
 
     inFile.close();
 
+    t.traverse();
+
+    cout << "\n\n";
+
     inFile.open("wordsToDelete.txt");
 
     while (inFile >> input)
@@ -33,6 +36,6 @@ int main()
 
     //cout << "Traversal of the constucted tree is ";
     t.traverse();
-    
+
     return 0;
 }
