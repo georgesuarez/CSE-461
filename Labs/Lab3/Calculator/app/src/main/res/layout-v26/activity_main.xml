@@ -58,6 +58,7 @@
         android:src="@drawable/subtract"
         android:background="@color/white_background"
         android:padding="12dp"
+        android:layout_marginStart="12dp"
         android:contentDescription="@string/subtract_button_desc" />
 
     </LinearLayout>
@@ -77,7 +78,6 @@
             android:src="@drawable/multiply"
             android:background="@color/white_background"
             android:padding="12dp"
-            android:layout_marginStart="8dp"
             android:contentDescription="@string/multiply_button_desc" />
 
     <ImageButton
@@ -86,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:padding="12dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="12dp"
         android:src="@drawable/ic_divide"
         android:contentDescription="@string/divide_button_desc" />
 

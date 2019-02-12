@@ -20,15 +20,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        t1 = findViewById(R.id.t1);
-        t2 = findViewById(R.id.t2);
+        t1 = (EditText) findViewById(R.id.t1);
+        t2 = (EditText) findViewById(R.id.t2);
 
-        plus = findViewById(R.id.plus);
-        minus = findViewById(R.id.minus);
-        multiply = findViewById(R.id.multiply);
-        divide = findViewById(R.id.divide);
+        plus = (ImageButton) findViewById(R.id.plus);
+        minus = (ImageButton) findViewById(R.id.minus);
+        multiply = (ImageButton) findViewById(R.id.multiply);
+        divide = (ImageButton) findViewById(R.id.divide);
 
-        displayResult = findViewById(R.id.displayResult);
+        displayResult = (TextView) findViewById(R.id.displayResult);
 
         // Set listeners
         plus.setOnClickListener(this);
