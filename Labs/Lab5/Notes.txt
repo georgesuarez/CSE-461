@@ -1,0 +1,17 @@
+# Distributed Computing
+
+1. What is XDR and what is it for?
+
+    -XDR is a standard data serialization format for computer network protocols. It allows
+     data to be transferred between different kinds of computer systems.
+
+2. How do you compile an input file into XDR routines?
+
+    -By using the -c option when compiling.
+
+3. What are the purposes of the switches -C and -a?
+
+    -The -C flag generates code in ANSI C and also generates code that could be compiled
+     with the C++ compiler.
+
+    -The -a flag generates all the files including sample code for client and server side.
