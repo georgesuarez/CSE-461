@@ -14,26 +14,36 @@ extern "C" {
 #endif
 
 
-#define RADN_PROG 0x30000000
+struct params {
+	int xleft;
+	int xright;
+};
+typedef struct params params;
+
+#define RAND_PROG 0x30000000
 #define RAND_VERS 1
 
 #if defined(__STDC__) || defined(__cplusplus)
-#define INITIALIZE_RANDOM 1
-extern  void * initialize_random_1(long *, CLIENT *);
-extern  void * initialize_random_1_svc(long *, struct svc_req *);
-#define GET_NEXT_RANDOM 2
-extern  double * get_next_random_1(void *, CLIENT *);
-extern  double * get_next_random_1_svc(void *, struct svc_req *);
-extern int radn_prog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
+#define GET_NEXT_RANDOM 1
+extern  int * get_next_random_1(params *, CLIENT *);
+extern  int * get_next_random_1_svc(params *, struct svc_req *);
+extern int rand_prog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
-#define INITIALIZE_RANDOM 1
-extern  void * initialize_random_1();
-extern  void * initialize_random_1_svc();
-#define GET_NEXT_RANDOM 2
-extern  double * get_next_random_1();
-extern  double * get_next_random_1_svc();
-extern int radn_prog_1_freeresult ();
+#define GET_NEXT_RANDOM 1
+extern  int * get_next_random_1();
+extern  int * get_next_random_1_svc();
+extern int rand_prog_1_freeresult ();
+#endif /* K&R C */
+
+/* the xdr functions */
+
+#if defined(__STDC__) || defined(__cplusplus)
+extern  bool_t xdr_params (XDR *, params*);
+
+#else /* K&R C */
+extern bool_t xdr_params ();
+
 #endif /* K&R C */
 
 #ifdef __cplusplus
