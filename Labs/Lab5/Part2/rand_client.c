@@ -76,7 +76,8 @@ int threads ( void *data )
 	int k, i_minus_1, i_plus_1, id, xleft, xright;
 
 	id = *( (int *) data );
-	printf("Thread %d", id );
+	printf("Thread: %d ", id );
+	printf("\n");
 
 	for ( k = 0; k < 10; k++ )
 	{
@@ -91,7 +92,7 @@ int threads ( void *data )
 		xright = x[i_plus_1];
 		x[id] = rand_prog_1 ( hosts[id], xleft, xright );
 
-		printf("%d: %d ) ", id, x[id] );
+		printf("(%d: %d) ", id, x[id] );
 		
 		rns[id][k] = x[id];
 		barrier();
@@ -130,15 +131,17 @@ main (int argc, char *argv[])
 	}
 
 	// Print out results in buffers
-	printf("\nRandom Numbers: ");
+	printf("\n\nRandom Numbers: ");
 	for ( i = 0; i < N; i++ )
 	{
-		printf("\nFrom Server %d:\n", i );
+		printf("\n\nFrom Server %d:\n", i );
 		for ( j = 0; j < 10; j++ )
 		{
 			printf("%d, ", rns[i][j] );
 		}
 	}
+	
+	printf("\n");
 
 	exit (0);
 }
